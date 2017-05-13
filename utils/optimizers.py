@@ -2,7 +2,7 @@ __author__ = 'andy17'
 
 import utils.theanoGeneral as utilsT
 import theano.tensor as T
-
+import numpy as np
 
 
 class sgd_nesterov(object):
@@ -34,9 +34,9 @@ class SGD(object):
         def sharedZero(v):
             sp = v.get_value().shape
             return utilsT.sharedf( np.zeros(sp) )
-        olddeltas = [ sharedZero(grad) for grad in grads ]
+        olddeltas = [ sharedZero(param) for param in params ]
         newdeltas = [ self.mom*oldd + self.lr*g for oldd,g in zip(olddeltas,grads) ]
-        newparams = [ p-dlta for p,delta in zip(params,newdeltas) ]
+        newparams = [ p-delta for p,delta in zip(params,newdeltas) ]
 
         newiter = self.iter + 1
         newlr   = self.lr/(1+self.dcy*self.iter)

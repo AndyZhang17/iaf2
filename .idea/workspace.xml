@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c6c6cd31-5660-44c5-972d-87df63380852" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.py" afterPath="$PROJECT_DIR$/config.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/mathT.py" afterPath="$PROJECT_DIR$/utils/mathT.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/network/normFlow.py" afterPath="$PROJECT_DIR$/network/normFlow.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/theanoGeneral.py" afterPath="$PROJECT_DIR$/utils/theanoGeneral.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/optimizers.py" afterPath="$PROJECT_DIR$/utils/optimizers.py" />
     </list>
     <ignored path="iaf2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -58,7 +55,7 @@
         <entry file="file://$PROJECT_DIR$/utils/optimizers.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.7089552">
-              <caret line="38" column="34" selection-start-line="38" selection-start-column="34" selection-end-line="38" selection-end-column="34" />
+              <caret line="38" column="31" selection-start-line="38" selection-start-column="31" selection-end-line="38" selection-end-column="31" />
               <folding>
                 <element signature="e#23#59#0" expanded="true" />
               </folding>
@@ -583,7 +580,7 @@
     <entry file="file://$PROJECT_DIR$/utils/optimizers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7089552">
-          <caret line="38" column="34" selection-start-line="38" selection-start-column="34" selection-end-line="38" selection-end-column="34" />
+          <caret line="38" column="31" selection-start-line="38" selection-start-column="31" selection-end-line="38" selection-end-column="31" />
           <folding>
             <element signature="e#23#59#0" expanded="true" />
           </folding>
