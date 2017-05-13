@@ -7,7 +7,7 @@ import utils
 import utils.theanoGeneral as utilsT
 import utils.mathT as mathT
 import utils.mathZ as mathZ
-
+import numpy as np
 
 class NormFlowLayer(object):
     def __init__(self,dim,name):
@@ -39,8 +39,8 @@ class LinLayer(NormFlowLayer):
         weight = mathZ.weightsInit(dim,dim,scale=1.,normalise=True)
         self.mask = utilsT.sharedf( mask )
         self.w = utilsT.sharedf( weight*mask )
-        self.b = np.zeros(dim)
-        self.u = np.ones(dim)
+        self.b = utilsT.sharedf( np.zeros(dim) )
+        self.u = utilsT.sharedf( np.ones(dim) )
 
         self.wmked = self.mask*self.w
         self.params = [ self.w, self.b, self.u ]
@@ -63,17 +63,24 @@ class LinLayer(NormFlowLayer):
 
 
 class NormFlowModel(object):
-    def __init__(self,dim,numlayers,name=None):
+
+    def __init__(self,dim,numlayers,noisestd=1.,name=None):
         self.dim=dim
         self.name=name
         self.layers = []
         for i in range(numlayers):
             self.layers.append( LinLayer(dim,'linear-%d'%(i))  )
             self.layers.append( PermuteLayer(dim,'perm-%d'%(i)) )
+        self.noisestd = utilsT.sharedf(noisestd)
 
-    def logPrior(self,e):
-        # TODO gaussian noise prior function
-        pass
+        # top layer noise
+        nmean = utilsT.sharedf(np.zeros(dim))
+        nvar  = utilsT.sharedf(np.eye(dim)*noisestd)
+        self.logPrior = mathT.multiNormInit(nmean,nvar)
+
+    def getNoiseVar(self,samplingsize,seed=None):
+        e = mathT.sharedNormVar(samplingsize,self.dim,seed=seed)
+        return e*self.noisestd
 
     def reparam(self,e):
         outputs  = [e] + [None]*len(self.layers)
@@ -84,6 +91,11 @@ class NormFlowModel(object):
             logjacos[k+1] = logjacos[k] - jaco
         return outputs[-1], logjacos[-1]
 
+    def getParams(self):
+        params = []
+        for layer in self.layers:
+            params.extend(layer.getParams())
+        return params
 
 
 

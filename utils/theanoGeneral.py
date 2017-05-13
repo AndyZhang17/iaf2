@@ -9,7 +9,7 @@ import utils
 
 
 
-
+floatX = utils.floatX
 
 def sharedf(x, target=None, name=None, borrow=False):
     if target:

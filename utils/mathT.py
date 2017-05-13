@@ -5,6 +5,8 @@ import theano
 import numpy as np
 import theano.tensor as T
 import theano.tensor.nlinalg as tlin
+from theano.tensor.shared_randomstreams import RandomStreams as trands
+
 '''
 by default, all input/output variables in this part are theano symbolic vars
 
@@ -24,6 +26,9 @@ def multiNormInit(mean,varmat):
         return - T.sum( subxsqr, axis=1 )/2. + const
     return loglik
 
+def sharedNormVar(num,dim,seed=None):
+    trng = trands(seed=seed)
+    return trng.normal((num,dim))
 
 
 
