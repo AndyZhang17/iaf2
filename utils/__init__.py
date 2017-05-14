@@ -10,5 +10,8 @@ PI = np.asarray( math.pi, dtype=floatX )
 
 
 import theanoGeneral
-
+import optimizers
+import mathT
+import mathZ
+import plotZ
 

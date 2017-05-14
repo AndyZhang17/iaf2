@@ -22,7 +22,7 @@ def multiNormInit(mean,varmat):
     def loglik(x):
         subx = x - mean
         subxcvt = T.dot(subx,varinv)   # Nxd
-        subxsqr = subx*subxcvt.T       # Nxd
+        subxsqr = subx*subxcvt       # Nxd
         return - T.sum( subxsqr, axis=1 )/2. + const
     return loglik
 

@@ -25,8 +25,9 @@ class sgd_nesterov(object):
 
 class SGD(object):
     def __init__(self,lr=0.01,momentum=0.0,decay=0.0):
+        self.LR0 = lr
         self.lr = utilsT.sharedf(lr)
-        self.iter = utilsT.sharedf(0)
+        self.it = utilsT.sharedf(0)
         self.mom = utilsT.sharedf(momentum)
         self.dcy = utilsT.sharedf(decay)
 
@@ -38,10 +39,12 @@ class SGD(object):
         newdeltas = [ self.mom*oldd + self.lr*g for oldd,g in zip(olddeltas,grads) ]
         newparams = [ p-delta for p,delta in zip(params,newdeltas) ]
 
-        newiter = self.iter + 1
-        newlr   = self.lr/(1+self.dcy*self.iter)
+        newiter = self.it + 1
+        newlr   = self.lr/(1+self.dcy*self.it)
 
-        updates   = zip(olddeltas,newdeltas) + zip(params,newparams) + [(self.lr,newlr),(self.iter,newiter)]
+        updates   = zip(olddeltas,newdeltas) + zip(params,newparams) + [(self.lr,newlr),(self.it,newiter)]
         return updates
+
+
 
 

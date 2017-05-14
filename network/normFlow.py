@@ -19,6 +19,9 @@ class NormFlowLayer(object):
     def getParams(self):
         pass
 
+    def reInit(self):
+        pass
+
 class PermuteLayer(NormFlowLayer):
     def __init__(self,dim,name=None):
         super(PermuteLayer,self).__init__(dim,name)
@@ -48,6 +51,15 @@ class LinLayer(NormFlowLayer):
 
         self.wdiag = tlin.extract_diag(self.w)
 
+    def reInit(self):
+        dim  = self.dim
+        mask = np.triu( np.ones((dim,dim)) )
+        weight = mathZ.weightsInit(dim,dim,scale=1.,normalise=True)
+        self.w.set_value( np.asarray( weight*mask, dtype=utils.floatX ) )
+        self.b.set_value( np.zeros(dim, dtype=utils.floatX) )
+        self.u.set_value( np.ones(dim, dtype=utils.floatX)  )
+
+
     def forward(self,x):
         # x: Nxd
         pretanh = T.dot(x, self.wmked ) +self.b   # N x d
@@ -69,7 +81,7 @@ class NormFlowModel(object):
         self.name=name
         self.layers = []
         for i in range(numlayers):
-            self.layers.append( LinLayer(dim,'linear-%d'%(i))  )
+            self.layers.append( LinLayer( dim,'linear-%d'%(i))  )
             self.layers.append( PermuteLayer(dim,'perm-%d'%(i)) )
         self.noisestd = utilsT.sharedf(noisestd)
 
@@ -96,6 +108,10 @@ class NormFlowModel(object):
         for layer in self.layers:
             params.extend(layer.getParams())
         return params
+
+    def reInit(self):
+        for layer in self.layers:
+            layer.reInit()
 
 
 
