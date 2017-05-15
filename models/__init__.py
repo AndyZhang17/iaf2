@@ -11,3 +11,4 @@ class GraphModel(object):
     def getParams(self):
         pass
 
+import mars

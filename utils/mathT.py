@@ -15,17 +15,6 @@ from theano.tensor.shared_randomstreams import RandomStreams as trands
 
 PI = utils.PI
 
-# def multiNormInit(mean,varmat):
-#     d = T.sum( T.ones_like(mean) )
-#     const = - d/2.*np.log(2*PI) - 0.5*T.log( T.abs_(tlin.det(varmat)) )
-#     varinv = tlin.matrix_inverse(varmat)
-#     def loglik(x):
-#         subx = x - mean
-#         subxcvt = T.dot(subx,varinv)   # Nxd
-#         subxsqr = subx*subxcvt       # Nxd
-#         return - T.sum( subxsqr, axis=1 )/2. + const
-#     return loglik
-
 def multiNormInit(mean,varmat):
     '''
     :param mean: numpy.ndarray, (d,)
@@ -46,6 +35,41 @@ def multiNormInit(mean,varmat):
         subxsqr = subx*subxcvt
         return - T.sum(subxsqr, axis=1)/2. + const_
     return loglik
+
+
+def multiNormInit_sharedParams(mean,varmat,dim):
+    d      = dim
+    const  = - d/2.*np.log(2*PI) - 0.5*T.log( T.abs_(tlin.det(varmat)) )
+    varinv = tlin.matrix_inverse(varmat)
+    def loglik(x):
+        subx = x - mean
+        subxcvt = T.dot(subx,varinv)   # Nxd
+        subxsqr = subx*subxcvt       # Nxd
+        return - T.sum( subxsqr, axis=1 )/2. + const
+    return loglik
+
+
+
+def normInit(mean,var):
+    const = -0.5*np.log(2*PI) - 0.5*np.log(var)
+    def loglik(x):
+        subx = x-mean
+        subxsqr = subx*subx/var
+        return -T.sum(subxsqr,axis=1)/2. + const
+    return loglik
+
+
+def normInit_sharedParams(mean,var):
+    const = -0.5*np.log(2*PI) - 0.5*T.log(var)
+    def loglik(x):
+        subx = x-mean
+        subxsqr = subx*subx/var
+        return -subxsqr/2. + const
+    return loglik
+
+
+
+
 
 def sharedNormVar(num,dim,seed=None):
     trng = trands(seed=seed)
