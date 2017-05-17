@@ -23,6 +23,11 @@ def sharedNormVar(num,dim,seed=None):
     trng = trands(seed=seed)
     return trng.normal((num,dim))
 
+def sharedNormVar2(shapein,seed=None):
+    trng = trands(seed=seed)
+    return trng.normal(shapein)
+
+
 
 '''
 uni-variate and multi-variate normal distributions

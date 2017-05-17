@@ -14,6 +14,17 @@ models, with batch evaluation
 '''
 
 class Banana(M.GraphModel):
+    '''
+    Graphical model
+
+        (z1)    (z2)
+          \     /
+           \   /
+           ( x )
+                   p(z) = N( z ; 0, I )
+                   p(x|z) = N( x ; z1*z2, std^2 )
+    '''
+
     def __init__(self, name=None):
         super(Banana,self).__init__(name)
 
@@ -65,7 +76,7 @@ class Banana(M.GraphModel):
     def generate(self,num,savepath):
         zs = npr.randn(num,self.dimz)
         xs = npr.randn(num)*self.stdx_ztrue + np.prod(zs,axis=1)
-        np.savez(savepath,x=xs,z=zs,std=self.stdx_ztrue)
+        np.savez(savepath,x=xs,z=zs,std=self.stdx_ztrue,size=num)
 
 
 

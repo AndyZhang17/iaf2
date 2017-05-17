@@ -4,28 +4,23 @@ import numpy as np
 import numpy.random as npr
 
 class Dataset0(object):
-    def __init__(self,data,autoreshuffle=True,verbose=False):
-        self.keys = data.keys()
+    def __init__(self,data,outkeys,autoreshuffle=True,verbose=False):
+        self.keys    = data.keys()
+        self.outkeys = outkeys
+
         self.data = data
-        self.size = data[self.keys[0]].shape[0]
+        self.size = int( data['size'] )
         self.idxs = np.arange(self.size)
 
-        self.batchsize = None
         self.startidx  = 0
-        self.out = dict()
+        self.batchsize = None
         self.autoreshuffle = autoreshuffle
-
-        for key in self.keys:
-            self.out[key] = None
-
         self.shuffle()
 
         if verbose:
-            shps = list()
-            for key in self.keys:
-                shps.append(self.data[key].shape)
-            kmsg ='\n\t'.join( [ str(key)+' : '+str(shp) for key,shp in zip(self.keys,shps) ] )
-            message = 'Data ready, size : %d \n keys : %s : ' %(self.size,kmsg)
+            shps = [ self.data[key].shape for key in self.outkeys ]
+            kmsg = '\n\t'.join( [key+' : '+str(shp) for key,shp in zip(self.outkeys,shps)] )
+            message = 'Data ready\n size : %d \n keys : %s : ' %(self.size,kmsg)
             print( message )
 
     def shuffle(self):
@@ -35,22 +30,23 @@ class Dataset0(object):
     def setBatchSize(self,size):
         self.batchsize = size
 
-    def getSize(self):
-        return self.size
+    def getAllData(self):
+        return self.data
 
     def getMiniBatch(self):
         end = self.startidx + self.batchsize
         if end>self.size:
-            if not self.autoreshuffle:
+            if not self.autoreshuffle:  # reaching the end of the dataset
                 return None
             self.shuffle()
             end = self.batchsize
 
-        ids = self.idxs[self.startidx:end]
-        for key in self.keys:
-            self.out[key] = self.data[key][ids]
+        ids = self.idxs[ self.startidx:end ]
+        out = dict()
+        for key in self.outkeys:
+            out[key] = self.data[key][ids]
         self.startidx = end
-        return self.out, ids
+        return out, ids
 
 
 
