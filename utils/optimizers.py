@@ -46,7 +46,11 @@ class Adadelta(object):
 
 
 class SGD(object):
-    def __init__(self, params, lr=0.01,momentum=0.0,decay=0.0):
+    '''
+    SGD with momentum
+    Tested
+    '''
+    def __init__(self, params, lr=0.01, momentum=0.0, decay=0.0):
         self.LR0 = lr
         self.lr  = utilsT.sharedf(lr)
         self.it  = utilsT.sharedf(0)

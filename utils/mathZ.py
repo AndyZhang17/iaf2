@@ -27,3 +27,4 @@ def permutMat(dim,enforcing=True,dtype=None):
     while enforcing and np.sum(np.diag(mat))!=0:
         mat = npr.permutation(np.eye(dim))
     return wrap(mat,dtype=dtype)
+

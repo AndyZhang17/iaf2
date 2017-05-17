@@ -8,12 +8,25 @@ import numpy.linalg as nlin
 import theano.tensor as T
 import theano.tensor.nlinalg as tlin
 from theano.tensor.shared_randomstreams import RandomStreams as trands
-
-'''
-
-'''
-
 PI = utils.PI
+
+'''
+
+'''
+
+
+
+'''
+functions of random streams
+'''
+def sharedNormVar(num,dim,seed=None):
+    trng = trands(seed=seed)
+    return trng.normal((num,dim))
+
+
+'''
+uni-variate and multi-variate normal distributions
+'''
 
 def multiNormInit(mean,varmat):
     '''
@@ -38,6 +51,12 @@ def multiNormInit(mean,varmat):
 
 
 def multiNormInit_sharedParams(mean,varmat,dim):
+    '''
+    :param mean:  theano.tensor.TensorVaraible
+    :param varmat: theano.tensor.TensorVaraible
+    :param dim: number
+    :return:
+    '''
     d      = dim
     const  = - d/2.*np.log(2*PI) - 0.5*T.log( T.abs_(tlin.det(varmat)) )
     varinv = tlin.matrix_inverse(varmat)
@@ -59,21 +78,17 @@ def normInit(mean,var):
     return loglik
 
 
-def normInit_sharedParams(mean,var):
+def normInit_sharedParams(mean,var,offset=None):
     const = -0.5*np.log(2*PI) - 0.5*T.log(var)
     def loglik(x):
         subx = x-mean
         subxsqr = subx*subx/var
-        return -subxsqr/2. + const
+        out = -subxsqr/2. + const
+        if offset:
+            return T.switch( out>offset, out, offset )
+        return out
     return loglik
 
-
-
-
-
-def sharedNormVar(num,dim,seed=None):
-    trng = trands(seed=seed)
-    return trng.normal((num,dim))
 
 def multiGmm(means,varmats,weights):
     '''

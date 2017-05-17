@@ -8,15 +8,22 @@ import utils.theanoGeneral as utilsT
 import utils.mathT as mathT
 import utils.mathZ as mathZ
 import numpy as np
-
+import numpy.random as npr
 
 floatX = utils.floatX
 
+'''
+normalisation flow, with batch inference enabled
+'''
+
 
 class NormFlowLayer(object):
-    def __init__(self,dim,name):
-        self.dim=dim
-        self.name=name
+    def __init__( self, dim, samplingsize, batchsize, name ):
+        self.name = name
+        self.dim = dim
+        self.splsize = samplingsize
+        self.batchsize = batchsize
+
     def forward(self,x):
         # return ( output, log|jacobite| )
         pass
@@ -35,13 +42,22 @@ class NormFlowLayer(object):
 
 
 class PermuteLayer(NormFlowLayer):
-    def __init__(self,dim,name=None):
-        super(PermuteLayer,self).__init__(dim,name)
-        self.w = utilsT.sharedf( mathZ.permutMat(dim,enforcing=True) )
-        self.logjaco = utilsT.sharedf(0.)
+    def __init__(self,dim, samplingsize, batchsize,name=None):
+        super(PermuteLayer,self).__init__(dim, samplingsize, batchsize,name)
 
-    def forward(self,x):
-        return T.dot(x,self.w), self.logjaco
+        # all batch members share the same permutation matrix
+        permmat = mathZ.permutMat(dim,enforcing=True,dtype=floatX)
+        jacon    = np.zeros(self.batchsize,self.splsize,dtype=floatX)
+
+        self.w       = utilsT.sharedf( permmat )    # d x d
+        self.logjaco = utilsT.sharedf( jacon )      # B x N
+
+    def forward(self,x):                # x: B x N x d
+        ylst = list()
+        for id in range(self.batchsize):
+            y = T.dot(x[id], self.w)
+        outy = T.concatenate(ylst).reshape((self.batchsize,self.splsize,self.dim))
+        return outy, self.logjaco     # B x N x d, B x N
 
     def getParams(self):
         return []
@@ -55,32 +71,40 @@ class PermuteLayer(NormFlowLayer):
 
 
 class LinLayer(NormFlowLayer):
-    def __init__(self,dim,name=None):
-        super(LinLayer,self).__init__(dim,name)
+    def __init__( self, dim, samplingsize, batchsize, name=None ):
+        super(LinLayer,self).__init__(dim, samplingsize,batchsize,name)
 
         # define weight mask and weight
         self.scale = (.0002/self.dim)**.5
+
+        # values setups
         mask = np.triu( np.ones((dim,dim)) )
-        weight = mathZ.weightsInit(dim,dim,scale=self.scale,normalise=True)      # TODO scaling
+        wn = npr.randn(batchsize,dim,dim) * self.scale/(dim+dim)
+        bn = np.zeros( batchsize,dim)
+        un = npr.randn(batchsize,dim) * self.scale
 
         self.mask = utilsT.sharedf( mask )
-        self.w = utilsT.sharedf( weight*mask )
-        self.b = utilsT.sharedf( np.zeros(dim) )
-        self.u = utilsT.sharedf( mathZ.biasInit(dim,mean=0,scale=self.scale) )
+        self.w = utilsT.sharedf( wn*mask )
+        self.b = utilsT.sharedf( bn )
+        self.u = utilsT.sharedf( un )
 
-        self.wmked  = self.mask*self.w            # masked weight
-        self.wdiag  = tlin.extract_diag(self.wmked)
+        self.wmked  = self.w * self.mask               # masked weight
+        self.iwdiag = theano.shared(np.arange(dim))
+        self.wdiag = self.wmked[:,self.iwdiag,self.iwdiag]
+
         self.params = [ self.w, self.b, self.u ]
-        self.paramshapes = [ (dim,dim), (dim,), (dim,) ]
+        self.paramshapes = [ (batchsize,dim,dim), (batchsize,dim), (batchsize,dim) ]
 
 
     def reInit(self):
         dim  = self.dim
         mask = np.triu( np.ones((dim,dim)) )
-        weight = mathZ.weightsInit(dim,dim,scale=self.scale,normalise=True,dtype=floatX)       # TODO scaling
-        self.w.set_value( np.asarray( weight*mask, dtype=floatX ) )
-        self.b.set_value( np.zeros(dim, dtype=floatX) )
-        self.u.set_value( mathZ.biasInit(dim,mean=0,scale=self.scale,dtype=floatX)  )
+        wn = npr.randn(self.batchsize,dim,dim) * self.scale/(dim+dim)
+        bn = np.zeros( self.batchsize,dim)
+        un = npr.randn(self.batchsize,dim)
+        self.w.set_value( np.asarray( wn*mask, dtype=floatX ) )
+        self.b.set_value( np.asarray( bn, dtype=floatX ) )
+        self.u.set_value( np.asarray( un, dtype=floatX ) )
 
     def setParamValues(self,values):
         self.w.set_value( np.asarray(values['w'],dtype=floatX) )
@@ -90,13 +114,20 @@ class LinLayer(NormFlowLayer):
     def getParamValues(self):
         return {'w':self.w.get_value(),'b':self.b.get_value(),'u': self.b.get_value()}
 
-    def forward(self,x):
-        # x: Nxd
-        pretanh = T.dot(x, self.wmked ) +self.b   # N x d
-        coshsqr = T.sqr( T.cosh( pretanh ) )      # N x d
-        y = x + self.u * T.tanh( pretanh )
-        logjaco = T.sum( T.log( T.abs_( 1.+self.u/coshsqr*self.wdiag ) ), axis=1 )
-        return y, logjaco   # N x d,  N
+    def forward(self,x):  # x: B x N x d
+        ys = list()
+        logjacos = list()
+        for id in self.batchsize:
+            pretanh = T.dot( x[id], self.wmked[id] ) + self.b[id]
+            coshsqr = T.sqr( T.cosh( pretanh ) )
+            y = x[id] + self.u[id] * T.tanh( pretanh )                  # N x d
+            logjaco = T.sum( T.log( T.abs_( 1.+self.u[id]/coshsqr*self.wdiag[id] ) ), axis=1 )
+
+            ys.append(y)
+            logjacos.append(logjaco)
+        outy       = T.concatenate(ys).reshape( (self.batchsize,self.splsize,self.dim) )   # B x N x d
+        outlogjaco = T.concatenate(logjacos).reshape( (self.batchsize,self.splsize) )      # B x N
+        return outy, outlogjaco
 
     def getParams(self):
         return self.params
@@ -148,6 +179,7 @@ class NormFlowModel(object):
     def setParamValues(self,paramValues):
         for k, layer in enumerate( self.layers ):
             layer.setParamValues(paramValues[k])
+
 
 
 
