@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c6c6cd31-5660-44c5-972d-87df63380852" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/data.py" afterPath="$PROJECT_DIR$/utils/data.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/developing_phase3.ipynb" afterPath="$PROJECT_DIR$/developing_phase3.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/mars2.py" afterPath="$PROJECT_DIR$/models/mars2.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/mathT.py" afterPath="$PROJECT_DIR$/utils/mathT.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/network/normFlow2.py" afterPath="$PROJECT_DIR$/network/normFlow2.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/optimizers.py" afterPath="$PROJECT_DIR$/utils/optimizers.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phase3.ipynb" afterPath="$PROJECT_DIR$/phase3.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="iaf2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -44,10 +39,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="mathT.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="mathT.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/utils/mathT.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.41356185">
+                <state vertical-scroll-proportion="0.0">
                   <caret line="53" column="50" selection-start-line="53" selection-start-column="49" selection-end-line="53" selection-end-column="50" />
                   <folding>
                     <element signature="e#23#35#0" expanded="true" />
@@ -78,11 +73,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="optimizers.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="optimizers.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/utils/optimizers.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+                <state vertical-scroll-proportion="0.73003805">
+                  <caret line="64" column="50" selection-start-line="64" selection-start-column="50" selection-end-line="64" selection-end-column="50" />
                   <folding>
                     <element signature="e#23#59#0" expanded="true" />
                   </folding>
@@ -106,11 +101,11 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="mars2.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="mars2.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/models/mars2.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.25707898">
-                  <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
                   <folding>
                     <element signature="e#23#36#0" expanded="true" />
                   </folding>
@@ -130,15 +125,14 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="normFlow2.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="normFlow2.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/network/normFlow2.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-25.0">
-                  <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+                <state vertical-scroll-proportion="0.34220532">
+                  <caret line="30" column="27" selection-start-line="30" selection-start-column="27" selection-end-line="30" selection-end-column="27" />
                   <folding>
                     <element signature="e#22#35#0" expanded="true" />
                     <element signature="e#6036#6145#0" expanded="false" />
-                    <element signature="e#6889#7001#0" expanded="false" />
                   </folding>
                 </state>
               </provider>
@@ -170,12 +164,12 @@
         <option value="$PROJECT_DIR$/utils/mathZ.py" />
         <option value="$PROJECT_DIR$/utils/__init__.py" />
         <option value="$PROJECT_DIR$/network/normFlow.py" />
-        <option value="$PROJECT_DIR$/utils/optimizers.py" />
         <option value="$PROJECT_DIR$/models/mars.py" />
         <option value="$PROJECT_DIR$/models/mars2.py" />
         <option value="$PROJECT_DIR$/utils/mathT.py" />
         <option value="$PROJECT_DIR$/utils/data.py" />
         <option value="$PROJECT_DIR$/network/normFlow2.py" />
+        <option value="$PROJECT_DIR$/utils/optimizers.py" />
       </list>
     </option>
   </component>
@@ -514,7 +508,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -605,7 +599,6 @@
           <folding>
             <element signature="e#22#35#0" expanded="true" />
             <element signature="e#6036#6145#0" expanded="false" />
-            <element signature="e#6889#7001#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -769,16 +762,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/optimizers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding>
-            <element signature="e#23#59#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -796,18 +779,6 @@
           <folding>
             <element signature="e#22#35#0" expanded="true" />
             <element signature="e#1997#2377#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/network/normFlow2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-25.0">
-          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-          <folding>
-            <element signature="e#22#35#0" expanded="true" />
-            <element signature="e#6036#6145#0" expanded="false" />
-            <element signature="e#6889#7001#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -832,7 +803,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/mathT.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41356185">
+        <state vertical-scroll-proportion="0.0">
           <caret line="53" column="50" selection-start-line="53" selection-start-column="49" selection-end-line="53" selection-end-column="50" />
           <folding>
             <element signature="e#23#35#0" expanded="true" />
@@ -840,12 +811,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/utils/optimizers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.73003805">
+          <caret line="64" column="50" selection-start-line="64" selection-start-column="50" selection-end-line="64" selection-end-column="50" />
+          <folding>
+            <element signature="e#23#59#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/models/mars2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25707898">
-          <caret line="23" column="39" selection-start-line="23" selection-start-column="39" selection-end-line="23" selection-end-column="39" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
           <folding>
             <element signature="e#23#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/network/normFlow2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34220532">
+          <caret line="30" column="27" selection-start-line="30" selection-start-column="27" selection-end-line="30" selection-end-column="27" />
+          <folding>
+            <element signature="e#22#35#0" expanded="true" />
+            <element signature="e#6036#6145#0" expanded="false" />
           </folding>
         </state>
       </provider>

@@ -52,20 +52,23 @@ class SGD(object):
     '''
     def __init__(self, params, lr=0.01, momentum=0.0, decay=0.0):
         self.LR0 = lr
+        self.mom = momentum
+        self.dcy = decay
+
+        # updated variable
         self.lr  = utilsT.sharedf(lr)
         self.it  = utilsT.sharedf(0)
-        self.mom = utilsT.sharedf(momentum)
-        self.dcy = utilsT.sharedf(decay)
 
-        self.oldvs = [ sharedConst(p) for p in params ]
+
 
     def getUpdates(self, params, grads):
-        newvs = [ self.mom*oldv +self.lr*g for oldv,g in zip(self.oldvs,grads) ]
+        oldvs = [ sharedConst(p) for p in params ]
+        newvs = [ self.mom*oldv +self.lr*g for oldv,g in zip(oldvs,grads) ]
         newps = [ p-v for p,v in zip(params,newvs) ]
         newit = self.it + 1
         newlr = self.LR0/(1+self.dcy*self.it)
 
-        updates = zip(params,newps) + zip(self.oldvs,newvs) + [ (self.lr,newlr), (self.it,newit) ]
+        updates = zip(params,newps) + zip(oldvs,newvs) + [ (self.lr,newlr), (self.it,newit) ]
         return updates
 
 
