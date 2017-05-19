@@ -8,7 +8,7 @@ import utils.theanoGeneral as utilsT
 import utils.mathT as mathT
 import utils.mathZ as mathZ
 import numpy as np
-
+import numpy.linalg as nlin
 
 floatX = utils.floatX
 
@@ -54,6 +54,7 @@ class PermuteLayer(NormFlowLayer):
 
 
 
+
 class LinLayer(NormFlowLayer):
     def __init__(self,dim,name=None):
         super(LinLayer,self).__init__(dim,name)
@@ -88,7 +89,7 @@ class LinLayer(NormFlowLayer):
         self.u.set_value( np.asarray(values['u'],dtype=floatX) )
 
     def getParamValues(self):
-        return {'w':self.w.get_value(),'b':self.b.get_value(),'u': self.b.get_value()}
+        return {'w':self.w.get_value(),'b':self.b.get_value(),'u': self.u.get_value()}
 
     def forward(self,x):
         # x: Nxd

@@ -1,13 +1,15 @@
 __author__ = 'andy17'
 
+import utils
 import utils.theanoGeneral as utilsT
 import theano.tensor as T
 import numpy as np
 
 
+floatX = utils.floatX
 
 def sharedConst(v,offset=0.):
-    shp = v.get_value().shape
+    shp = v.shape.eval()
     return utilsT.sharedf( np.ones(shp)*offset )
 
 
@@ -71,6 +73,9 @@ class SGD(object):
         updates = zip(params,newps) + zip(oldvs,newvs) + [ (self.lr,newlr), (self.it,newit) ]
         return updates
 
+    def reInit(self):
+        self.lr.set_value( self.LR0 )
+        self.it.set_value( 0 )
 
 
 

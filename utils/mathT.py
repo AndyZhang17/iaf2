@@ -79,7 +79,7 @@ def normInit(mean,var):
     def loglik(x):
         subx = x-mean
         subxsqr = subx*subx/var
-        return -T.sum(subxsqr,axis=1)/2. + const
+        return -subxsqr/2. + const
     return loglik
 
 
@@ -94,6 +94,11 @@ def normInit_sharedParams(mean,var,offset=None):
         return out
     return loglik
 
+
+
+'''
+multi-variate GMM
+'''
 
 def multiGmm(means,varmats,weights):
     '''

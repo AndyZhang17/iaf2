@@ -76,7 +76,7 @@ class PermuteLayer(NormFlowLayer):
         outy = T.concatenate(ylst).reshape( (self.batchsize,self.splsize,self.dim) )
         return outy, self.logjaco     # B x N x d, B x N
 
-    def getParams(self):
+    def getParams(self,id=None):
         return []
 
     def setParamValues(self,values):
@@ -129,7 +129,7 @@ class LinLayer(NormFlowLayer):
         self.u.set_value( np.asarray(values['u'],dtype=floatX) )
 
     def getParamValues(self):
-        return {'w':self.w.get_value(),'b':self.b.get_value(),'u': self.b.get_value()}
+        return {'w':self.w.get_value(),'b':self.b.get_value(),'u': self.u.get_value()}
 
     def forward(self,x):  # x: B x N x d
         ys = list()
@@ -146,8 +146,11 @@ class LinLayer(NormFlowLayer):
         outlogjaco = T.concatenate(logjacos).reshape( (self.batchsize,self.splsize) )      # B x N
         return outy, outlogjaco
 
-    def getParams(self):
-        return self.params
+    def getParams(self,id=None):
+        if id:
+            return [ self.w[id], self.b[id], self.u[id] ]
+        else:
+            return self.params
 
 
 
@@ -194,10 +197,12 @@ class NormFlowModel(object):
 
         return outys[-1], logjacos[-1]
 
-    def getParams(self):
+    def getParams(self, id=None):
+        # get parameters of the id-th local inference,
+        # if id = None, returns all the parameters
         params = []
         for layer in self.layers:
-            params.extend(layer.getParams())
+            params.extend( layer.getParams(id) )
         return params
 
     def reInit(self):
