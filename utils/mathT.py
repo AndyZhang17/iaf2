@@ -19,6 +19,11 @@ PI = utils.PI
 '''
 functions of random streams
 '''
+
+def sharedUnifVar(num,dim,seed=None):
+    trng = trands(seed=seed)
+    return trng.uniform((num,dim))
+
 def sharedNormVar(num,dim,seed=None):
     trng = trands(seed=seed)
     return trng.normal((num,dim))
@@ -32,6 +37,12 @@ def sharedNormVar2(shapein,seed=None):
 '''
 uni-variate and multi-variate normal distributions
 '''
+
+def uniformInit(volume=1.):
+    def loglik(x):
+        return T.ones_like(T.sum(x,axis=1))/volume
+    return loglik
+
 
 def multiNormInit(mean,varmat):
     '''

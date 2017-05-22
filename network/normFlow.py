@@ -106,7 +106,7 @@ class LinLayer(NormFlowLayer):
 
 class NormFlowModel(object):
 
-    def __init__(self,dim,numlayers,noisestd=1.,name=None):
+    def __init__(self,dim,numlayers,noisestd=1.,z0type='Gauss',name=None):
         self.dim = dim
         self.name = name
         self.layers = []
@@ -114,12 +114,22 @@ class NormFlowModel(object):
             self.layers.append( LinLayer(    dim,'linear-%d'%(2*i) )  )
             self.layers.append( PermuteLayer(dim,'perm-%d'%(2*i+1) )  )
         # top layer noise
-        self.noisestd = utilsT.sharedf(noisestd)
-        self.logPrior = mathT.multiNormInit( np.zeros(dim), np.eye(dim)*(noisestd**2)  )
+        self.noisestd = noisestd
+
+
+        self.z0type=z0type.lower()
+        if self.z0type=='normal':
+            self.logPrior = mathT.multiNormInit( np.zeros(dim), np.eye(dim)*(noisestd**2)  )
+        elif self.z0type=='uniform':
+            self.logPrior = mathT.uniformInit(volume=noisestd**dim)
 
     def getNoiseVar(self,samplingsize,seed=None):
-        e = mathT.sharedNormVar(samplingsize,self.dim,seed=seed)
-        return e*self.noisestd
+        if self.z0type=='normal':
+            e = mathT.sharedNormVar(samplingsize,self.dim,seed=seed)
+            return e*self.noisestd
+        elif self.z0type=='uniform':
+            e = mathT.sharedUnifVar(samplingsize,self.dim,seed=seed)
+            return (e-0.5)*self.noisestd
 
     def reparam(self,e):
         outputs  = [e] + [None]*len(self.layers)
