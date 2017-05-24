@@ -17,9 +17,10 @@ class NormFlowLayer(object):
     def __init__(self,dim,name):
         self.dim=dim
         self.name=name
+
     def forward(self,x):
-        # return ( output, log|jacobite| )
         pass
+
     def getParams(self):
         pass
 
@@ -56,11 +57,13 @@ class PermuteLayer(NormFlowLayer):
 
 
 class LinLayer(NormFlowLayer):
-    def __init__(self,dim,name=None):
+    def __init__(self,dim,name=None,scale=None):
         super(LinLayer,self).__init__(dim,name)
 
         # define weight mask and weight
         self.scale = (.0002/self.dim)**.5
+        if scale:
+            self.scale = scale
         mask = np.triu( np.ones((dim,dim)) )
         weight = mathZ.weightsInit(dim,dim,scale=self.scale,normalise=True)      # TODO scaling
 
@@ -106,13 +109,13 @@ class LinLayer(NormFlowLayer):
 
 class NormFlowModel(object):
 
-    def __init__(self,dim,numlayers,noisestd=1.,z0type='Gauss',name=None):
+    def __init__(self,dim,numlayers,noisestd=1.,z0type='normal',name=None, scale=None):
         self.dim = dim
         self.name = name
         self.layers = []
         for i in range(numlayers):
-            self.layers.append( LinLayer(    dim,'linear-%d'%(2*i) )  )
-            self.layers.append( PermuteLayer(dim,'perm-%d'%(2*i+1) )  )
+            self.layers.append( LinLayer( dim, name='linear-%d'%(2*i), scale=scale )  )
+            self.layers.append( PermuteLayer( dim,'perm-%d'%(2*i+1) )  )
         # top layer noise
         self.noisestd = noisestd
 
@@ -131,14 +134,17 @@ class NormFlowModel(object):
             e = mathT.sharedUnifVar(samplingsize,self.dim,seed=seed)
             return (e-0.5)*self.noisestd
 
-    def reparam(self,e):
+    def reparam(self,e,inter=False):
         outputs  = [e] + [None]*len(self.layers)
         logjacos = [self.logPrior(e)] + [None]*len(self.layers)
         for k,layer in enumerate(self.layers):
             out, jaco = layer.forward(outputs[k])
             outputs[k+1] = out
             logjacos[k+1] = logjacos[k] - jaco
-        return outputs[-1], logjacos[-1]
+        if inter:
+            return outputs, logjacos
+        else:
+            return outputs[-1], logjacos[-1]
 
     def getParams(self):
         params = []
@@ -159,6 +165,7 @@ class NormFlowModel(object):
     def setParamValues(self,paramValues):
         for k, layer in enumerate( self.layers ):
             layer.setParamValues(paramValues[k])
+
 
 
 

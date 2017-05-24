@@ -85,4 +85,21 @@ def gridPoints(xparams,yparams):
 def sigmoid(x):
     return 1./(1.+np.exp(-x))
 
+def softmax(x):   # N x K
+    K = x.shape[1]
+    xmaxs = np.repeat( np.max(x,axis=1,keepdims=True), repeats=K, axis=1 )
+    x_ = x - xmaxs
+    expx = np.exp(x_)
+    expsums = np.sum(expx,axis=1,keepdims=True)
+    expsums = np.repeat(expsums,repeats=K, axis=1)
+    return expx/expsums
+
+def randFromSftmx(probs): # N x K
+    N,K = probs.shape
+    cump = np.cumsum(probs,axis=1)
+    bars = np.repeat(npr.rand(N,1),repeats=K,axis=1)
+    labels = np.sum( (bars-cump)>0+0, axis=1, dtype='int32' )
+    ys = np.zeros((N,K))
+    ys[np.arange(N),labels] = 1
+    return ys, labels
 

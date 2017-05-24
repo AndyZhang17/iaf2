@@ -10,39 +10,152 @@ import utils.mathZ as mathZ
 import numpy as np
 import numpy.random as npr
 
+floatX = utils.floatX
 
 class Logistic(object):
-    def __init__(self, dimx):
+    def __init__(self,dimx,debug=False):
         self.dimx = dimx
+        self.debug = debug
 
-        self.wPrior = mathT.multiNormInit( mean=np.zeros(dimx),varmat=np.eye(dimx) )
+        self.wPrior  = mathT.multiNormInit(mean=np.zeros(self.dimx),varmat=np.eye(self.dimx))
+        self.wPriorn = mathZ.multiNormInit(mean=np.zeros(self.dimx),varmat=np.eye(self.dimx))
 
-        self.wn = npr.randn(dimx,1)
-        self.bn = npr.randn(1)
+    def logPy_xw(self,x,y,ws,bs):
+        '''
+         log( p( y | x,w ) ), inputs are all TensorVariables
+         N : number of data points, L : number of w samples
+         :param x:  ( N , dimx )
+         :param y:  ( N , )
+         :param ws: ( L , dimx )
+         :param bs: ( L , )
+         :return: L, L x N, logP(y|x,w)
+        '''
+        y_ = y.dimshuffle(['x',0])
+        sigall = T.nnet.sigmoid( T.dot( ws, x.T ) + bs.dimshuffle([0,'x']) )   # (L, N) + (L, )
+        proball = sigall*y_ + (1.-sigall)*(1-y_)
+        logall = T.log( proball )
+        if self.debug:
+            return T.sum(logall,axis=1), logall, y_, sigall, proball
+        return T.sum(logall,axis=1), logall
 
-    def setParamValues(self, w=None,b=None):
+    def logPw(self,ws):
+        '''
+        :param ws: TensorVaraiables, ( L, dimx )
+        :return:
+        '''
+        return self.wPrior(ws)
+
+    def nlogPy_xw(self,x,y,ws,bs):
+        #  x : ( N, Dx ),    y : ( N, )
+        # ws : ( L, Dx ),   bs : ( L, )
+        wn, bn = np.asarray(ws),np.asarray(bs)
+        y_ = y.reshape((1,y.shape[0]))  # ( 1, N )
+        sigall = mathZ.sigmoid( np.dot( wn, x.T ) + bn.reshape( (bn.shape[0],1) ) )   # ( L, N ) + ( L, )
+        sigall_neg = 1. - sigall
+        proball = sigall*y_ + sigall_neg*(1-y_)
+        logall = np.log( proball )
+        return np.sum( logall, axis=1), logall
+
+    def nlogPw(self,ws):
+        wn = np.asarray(ws)
+        return self.wPriorn(wn)
+
+
+
+
+
+
+
+
+
+
+
+
+class Multiclass(object):
+    def __init__(self, dimx, dimy):
+        # y: one-of-k labeling
+        self.dimx = dimx
+        self.dimy = dimy # >= 2
+        self.dimflat = dimx*dimy+dimy
+
+        # p(w), tensor function
+        self.wPrior  = mathT.multiNormInit( mean=np.zeros(self.dimflat),varmat=np.eye(self.dimflat) )
+        self.wPriorn = mathZ.multiNormInit( mean=np.zeros(self.dimflat),varmat=np.eye(self.dimflat) )
+
+        # true params
+        self.wn_true = npr.randn(dimx,dimy)
+        self.bn_true = npr.randn(dimy)
+
+        # parameter to be optimised
+
+
+
+    # Numpy.ndarray funcitons
+
+    def setTrueParamValues(self, w=None,b=None):
+        w = np.asarray(w,dtype=floatX)
+        b = np.asarray(b,dtype=floatX)
         if np.any(w) is not None:
-            self.wn = w
+            self.wn_true = w.reshape((self.dimx,self.dimy))
         if np.any(b) is not None:
-            self.bn = b
-
+            self.bn_true = b.reshape((self.dimy,))
 
     def genData(self,fromx,savefile=None,verbose=False):
         # generate numpy data
-        probs = mathZ.sigmoid( np.dot(fromx,self.wn)+self.bn )
-        probs = np.squeeze(probs)
-        y = ( npr.rand(fromx.shape[0]) < probs ) + 0   # y = {0,1}, binary
-        outd = {'x':fromx,'y':y,'w':self.wn,'b':self.bn}
+        probs = mathZ.softmax( np.dot(fromx,self.wn_true)+self.bn_true )
+        # probs = mathZ.sigmoid( np.dot(fromx,self.wn_true)+self.bn_true )
+        # probs = np.squeeze(probs)
+        y, label = mathZ.randFromSftmx(probs)  # y = {0,1}, binary
+        outd = {'x':fromx,'y':y,'label':label,'w':self.wn_true,'b':self.bn_true}
         
         if verbose:
             print 'Data generation, logistic\n\t' \
-                  'input x  : %s\n\tlabel y  : %s, E(y) : %0.2f\n\t' \
-                  'weight.T : %s\n\tbias  b  : %s' %(fromx.shape,y.shape,np.mean(y),
-                                                   self.wn.T,self.bn)
+                  'input x  : %s\n\t1-of-K y  : %s\n\t' \
+                  'weight.T : %s\n\tbias  b  : %s' %(fromx.shape,y.shape,
+                                                   self.wn_true.T,self.bn_true)
             print 'Data saving path : %s\nkeys : %s' %(savefile,outd.keys())
         if savefile:
-            np.savez(savefile,x=fromx,y=y,w=self.wn,b=self.bn)
+            np.savez(savefile,x=fromx,y=y,label=label,w=self.wn_true,b=self.bn_true)
         return outd
+
+    # theano TensorVariable funcitons
+
+    def logPy_xw(self,x,y,ws,bs):
+        '''
+         log( p(y|x,w) ), inputs are all TensorVariables
+         N : number of data points, L : number of w samples
+         :param x:  N x dimx
+         :param y:  N x dimy-K
+         :param ws: L x dimx x dimy
+         :param bs: L x dimy
+         :return: L, L x N, logP(y|x,w)
+        '''
+        L = ws.shape.eval()[0]
+        N = x.shape.eval()[0]
+        problst = list()
+        for i in range(L):
+            probs = T.nnet.softmax( T.dot(x,ws[i]) + bs[i] )   # NxK
+            proby = T.sum( probs * y, axis=1 )  # N
+            problst.append( proby )
+        probout = T.concatenate(problst).reshape( (L,N) )
+        logpys = T.log(probout) # L x N
+        return T.sum(logpys,axis=1), logpys  # L, LxN
+
+
+    def logPw(self,ws,bs):
+        '''
+        :param ws: L x dimx x dimy
+        :param bs: L x K
+        :return:   L
+        '''
+        L = ws.shape.eval()[0]
+        wflat = T.concatenate( [ws.reshape((L,self.dimx*self.dimy)),bs], axis=1 ) # L x dimflat
+        return self.wPrior(wflat)
+
+
+
+
+
 
 
 
