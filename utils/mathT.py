@@ -46,6 +46,7 @@ def uniformInit(volume=1.):
 
 def multiNormInit(mean,varmat):
     '''
+    multi-variate normal distribution
     :param mean: numpy.ndarray, (d,)
     :param varmat: numpy.ndarray, (d,d)
     :return: log-pdf function, linking theano.tensors
@@ -84,8 +85,45 @@ def multiNormInit_sharedParams(mean,varmat,dim):
     return loglik
 
 
+def indepNormInit(meanlst,varlst):
+    ###
+    ### Untested, note the const
+    mu  = np.asarray(meanlst)       # ( K, )
+    var = np.asarray(varlst)        # ( K, )
+    const = -0.5*np.log(2*PI) - 0.5*np.log(var)   # ( K, )
+
+    mut  = utils.theanoGeneral.sharedf(mu)   # ( K, )
+    vart = utils.theanoGeneral.sharedf(var)
+    cstt = utils.theanoGeneral.sharedf(const)
+
+    mu_    =  mut.dimshuffle(['x',0])
+    var_   = vart.dimshuffle(['x',0])
+    const_ = cstt.dimshuffle(['x',0])
+
+    def loglik(x):
+        # x : ( N, K )
+        # return : ( N, )
+        subx2 = T.sqr( x - mu_ )/var_/2.
+        logs = -subx2 + const_
+        return T.sum(logs,axis=1)
+    return loglik
+
+def indepNormInit_sharedParams(means,varlst):
+    const = -.5*np.log(2*PI) - .5*T.log(varlst) # ( K, )
+    const = const.dimshuffle(['x',0])  # ( 1,K )
+    def loglik(x):  # ( N, K )
+        subx2 = T.sqr( x-means )/varlst/2
+        logs = -subx2 + const
+        return T.sum(logs,axis=1)
+    return loglik
+
+
+
 
 def normInit(mean,var):
+    '''
+    single variate normal distribution
+    '''
     const = -0.5*np.log(2*PI) - 0.5*np.log(var)
     def loglik(x):
         subx = x-mean

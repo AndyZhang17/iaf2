@@ -2,12 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c6c6cd31-5660-44c5-972d-87df63380852" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/moon.py" afterPath="$PROJECT_DIR$/models/moon.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/network/normFlow.py" afterPath="$PROJECT_DIR$/network/normFlow.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phase1.ipynb" afterPath="$PROJECT_DIR$/phase1.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phase4-logistic.ipynb" afterPath="$PROJECT_DIR$/phase4-logistic.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phase4.ipynb" afterPath="$PROJECT_DIR$/phase4.ipynb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/plotZ.py" afterPath="$PROJECT_DIR$/utils/plotZ.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/phase1-scaling.ipynb" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/phase4-logistic.ipynb" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/mathT.py" afterPath="$PROJECT_DIR$/utils/mathT.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/network/meanField.py" afterPath="$PROJECT_DIR$/network/meanField.py" />
     </list>
     <ignored path="iaf2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,11 +28,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.4727185">
       <split-first>
         <leaf>
-          <file leaf-file-name="normFlow.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="normFlow.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/network/normFlow.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.21686748">
-                  <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
+                <state vertical-scroll-proportion="-19.444445">
+                  <caret line="129" column="33" selection-start-line="129" selection-start-column="33" selection-end-line="129" selection-end-column="33" />
                   <folding>
                     <element signature="e#22#35#0" expanded="true" />
                   </folding>
@@ -90,6 +88,16 @@
               </provider>
             </entry>
           </file>
+          <file leaf-file-name="mathT.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/utils/mathT.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.5542453">
+                  <caret line="111" column="15" selection-start-line="111" selection-start-column="15" selection-end-line="111" selection-end-column="15" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
         </leaf>
       </split-first>
       <split-second>
@@ -98,7 +106,7 @@
             <entry file="file://$PROJECT_DIR$/utils/data.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.0">
-                  <caret line="47" column="27" selection-start-line="47" selection-start-column="27" selection-end-line="47" selection-end-column="27" />
+                  <caret line="0" column="21" selection-start-line="0" selection-start-column="21" selection-end-line="0" selection-end-column="21" />
                   <folding>
                     <element signature="e#23#41#0" expanded="true" />
                   </folding>
@@ -133,9 +141,11 @@
           <file leaf-file-name="meanField.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/network/meanField.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.011792453">
-                  <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-                  <folding />
+                <state vertical-scroll-proportion="0.4245283">
+                  <caret line="36" column="18" selection-start-line="36" selection-start-column="18" selection-end-line="36" selection-end-column="18" />
+                  <folding>
+                    <element signature="e#22#35#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -168,12 +178,12 @@
         <option value="$PROJECT_DIR$/utils/optimizers.py" />
         <option value="$PROJECT_DIR$/network/normFlow2.py" />
         <option value="$PROJECT_DIR$/models/mars.py" />
-        <option value="$PROJECT_DIR$/utils/mathT.py" />
         <option value="$PROJECT_DIR$/utils/mathZ.py" />
         <option value="$PROJECT_DIR$/network/normFlow.py" />
         <option value="$PROJECT_DIR$/utils/plotZ.py" />
         <option value="$PROJECT_DIR$/models/moon.py" />
         <option value="$PROJECT_DIR$/network/meanField.py" />
+        <option value="$PROJECT_DIR$/utils/mathT.py" />
       </list>
     </option>
   </component>
@@ -181,9 +191,9 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="74" />
+    <option name="x" value="-646" />
     <option name="y" value="23" />
-    <option name="width" value="2292" />
+    <option name="width" value="1824" />
     <option name="height" value="1392" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -478,10 +488,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="74" y="23" width="2292" height="1392" extended-state="0" />
+    <frame x="-646" y="23" width="1824" height="1392" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.09114927" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11480865" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -842,16 +852,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/mathT.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="30" column="38" selection-start-line="30" selection-start-column="38" selection-end-line="30" selection-end-column="38" />
-          <folding>
-            <element signature="e#23#35#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/network/normFlow2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334">
@@ -873,16 +873,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="6" column="36" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/data.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="47" column="27" selection-start-line="47" selection-start-column="27" selection-end-line="47" selection-end-column="27" />
-          <folding>
-            <element signature="e#23#41#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -924,21 +914,41 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/utils/data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="21" selection-start-line="0" selection-start-column="21" selection-end-line="0" selection-end-column="21" />
+          <folding>
+            <element signature="e#23#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/network/normFlow.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.21686748">
-          <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
+        <state vertical-scroll-proportion="-19.444445">
+          <caret line="129" column="33" selection-start-line="129" selection-start-column="33" selection-end-line="129" selection-end-column="33" />
           <folding>
             <element signature="e#22#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/utils/mathT.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5542453">
+          <caret line="111" column="15" selection-start-line="111" selection-start-column="15" selection-end-line="111" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/network/meanField.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.011792453">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.4245283">
+          <caret line="36" column="18" selection-start-line="36" selection-start-column="18" selection-end-line="36" selection-end-column="18" />
+          <folding>
+            <element signature="e#22#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
