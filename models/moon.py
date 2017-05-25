@@ -76,17 +76,15 @@ class Multiclass(object):
         # y: one-of-k labeling
         self.dimx = dimx
         self.dimy = dimy # >= 2
-        self.dimflat = dimx*dimy+dimy
+        self.dimwflat = dimx*dimy
 
         # p(w), tensor function
-        self.wPrior  = mathT.multiNormInit( mean=np.zeros(self.dimflat),varmat=np.eye(self.dimflat) )
-        self.wPriorn = mathZ.multiNormInit( mean=np.zeros(self.dimflat),varmat=np.eye(self.dimflat) )
+        self.wPrior  = mathT.multiNormInit( mean=np.zeros(self.dimwflat),varmat=np.eye(self.dimwflat) )
+        self.wPriorn = mathZ.multiNormInit( mean=np.zeros(self.dimwflat),varmat=np.eye(self.dimwflat) )
 
         # true params
-        self.wn_true = npr.randn(dimx,dimy)
-        self.bn_true = npr.randn(dimy)
-
-        # parameter to be optimised
+        self.wn_true = npr.randn(dimx,dimy)   # dimx * dimy, dimy = K
+        self.bn_true = npr.randn(dimy)        # dimy
 
 
 
@@ -117,6 +115,26 @@ class Multiclass(object):
         if savefile:
             np.savez(savefile,x=fromx,y=y,label=label,w=self.wn_true,b=self.bn_true)
         return outd
+
+    def nlogPw(self,ws):
+        wn = np.asarray(ws)
+        L = wn.shape[0]
+        return self.wPriorn( wn.reshape((L,-1)) )
+
+    def nlogPy_xw(self,x,y,ws,bs):
+        #  x : ( N, Dx ),       y : ( N, K )
+        # ws : ( L, Dx, K ),   bs : ( L, K )
+        wn, bn = np.asarray(ws), np.asarray(bs)
+        L, DX, K = wn.shape
+        wn_ = np.transpose(wn, axes=[0,2,1])             # ( L, K, Dx )
+        prods_ = np.dot(wn_,x.T) + bn.reshape((L,K,1))   # ( L, K, N )
+        prods = np.transpose(prods_, axes=[0,2,1])       # ( L, N, K )
+        probs_ = mathZ.softmax(prods.reshape((-1,K)))    # ( L*N,  K )
+        probs = probs_.reshape( prods.shape ) * y.reshape((1,-1,K))       # ( L, N, K )
+        logprobs = np.log( np.sum(probs, axis=2) )                        # ( L, N )
+        return np.sum(logprobs,axis=1), logprobs   # ( L, ), ( L, N )
+
+
 
     # theano TensorVariable funcitons
 

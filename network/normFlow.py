@@ -70,7 +70,7 @@ class LinLayer(NormFlowLayer):
         self.mask = utilsT.sharedf( mask )
         self.w = utilsT.sharedf( weight*mask )
         self.b = utilsT.sharedf( np.zeros(dim) )
-        self.u = utilsT.sharedf( mathZ.biasInit(dim,mean=0,scale=self.scale) )
+        self.u = utilsT.sharedf( mathZ.biasInit(dim,mean=0,scale=self.scale)/2 )
 
         self.wmked  = self.mask*self.w            # masked weight
         self.wdiag  = tlin.extract_diag(self.wmked)
