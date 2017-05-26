@@ -2,6 +2,7 @@ __author__ = 'andy17'
 import numpy as np
 import numpy.random as npr
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 def hist2d(x,y,bins=50):
     heatmap, xedges, yedges = np.histogram2d(x,y,bins=bins)
@@ -31,3 +32,11 @@ def category2d(points,cat,dotarea=10,axes=(0,1)):
     plt.scatter( x,y, s=area, c=cs, alpha=1.0)
     return fig
 
+def category3d(points,cat,dotarea=10,axes=(0,1,2)):
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    x,y,z = points[:,axes[0]],points[:,axes[1]],points[:,axes[2]]
+    cs  = cat
+    marker = 'o'
+    ax.scatter(x,y,z,c = cs,marker=marker,s=dotarea)
+    return fig
