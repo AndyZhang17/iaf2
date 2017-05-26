@@ -19,24 +19,24 @@ class Banana(M.GraphModel):
 
         self.stdx_ztrue = 0.7
 
-        self.stdx_z = utilsT.sharedf(1.)
-        self.params = [self.stdx_z]
+        self.var_xz = utilsT.sharedf(1.)
+        self.params = []
 
         self.logP_z       = mathT.multiNormInit( mean=np.zeros(self.dimz), varmat=np.eye(self.dimz) )  # wont change
-        self.logP_uninorm = mathT.normInit_sharedParams(mean=utilsT.sharedf(0), var=T.sqr(self.stdx_z), offset=None)
+        self.logP_uninorm = mathT.normInit_sharedParams(mean=utilsT.sharedf(0), var=self.var_xz, offset=None)
 
-        self.nEval = mathZ.normInit(0,self.stdx_z.get_value())
+        self.normal = mathZ.normInit(0,self.var_xz.get_value())
+        self.nprior = mathZ.multiNormInit(np.zeros(self.dimz),np.eye(self.dimz))
 
     def setX(self,x):
         self.x = x
 
-    def setStd(self,std):
-        self.stdx_z.set_value(np.asarray(std,dtype=utils.floatX))
-
-    def setTrueStd(self,std):
-        self.stdx_ztrue = std
+    def setVar(self,var):
+        self.var_xz.set_value(np.asarray(var,dtype=utils.floatX))
+        self.normal = mathZ.normInit(0,var)
 
     def logPxz(self,z):                      # z : N x dimZ
+        # p( x,z )
         zprods = T.prod(z,axis=1)
         subs = zprods - self.x
         logpx_z = self.logP_uninorm(subs)    # N
@@ -46,15 +46,11 @@ class Banana(M.GraphModel):
     def getParams(self):
         return self.params
 
-    def generate(self,num,savepath):
-        zs = npr.randn(num,self.dimz)
-        xs = npr.randn(num)*self.stdx_ztrue + np.prod(zs,axis=1)
-        np.savez(savepath,x=xs,z=zs,std=self.stdx_ztrue)
-
-    def evalx_z(self,valx,z):
+    def nlogPxz(self,valx,z):
         zprods = np.prod(z,axis=1)
         subs =zprods - valx
-        return self.nEval(subs)
+        px_z = self.normal(subs)
+        return px_z+self.nprior(z), px_z
 
 
 
@@ -72,11 +68,22 @@ class Apple(M.GraphModel):
     def getParams(self):
         return []
 
-    def evalx_z(self,z):
+    def nlogPz(self,z):
         z2  = z[:,1]
         z1  = np.sin( PI/2.*z[:,0] )
         out = -np.square((z2 - z1)/0.4)/2.        # N
         return out
+
+
+
+
+
+
+
+
+
+
+
 
 
 
