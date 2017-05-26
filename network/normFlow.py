@@ -109,11 +109,16 @@ class LinLayer(NormFlowLayer):
 
 class NormFlowModel(object):
 
-    def __init__(self,dim,numlayers,noisestd=1.,z0type='normal',name=None, scale=None):
+    def __init__(self,dim,numlayers,noisestd=1.,z0type='normal',name=None, scalelst=[]):
         self.dim = dim
         self.name = name
         self.layers = []
         for i in range(numlayers):
+            scale = None
+            if len(scalelst)==numlayers:
+                scale = scalelst[i]
+            elif scalelst:
+                scale = scalelst[0]
             self.layers.append( LinLayer( dim, name='linear-%d'%(2*i), scale=scale )  )
             self.layers.append( PermuteLayer( dim,'perm-%d'%(2*i+1) )  )
         # top layer noise

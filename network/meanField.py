@@ -41,6 +41,16 @@ class MeanField(object):
             self.qzfn = mathZ.multiNormInit(self.means.eval(),self.varmat.eval())
         return self.qzfn(z)
 
+    def getParamValues(self):
+        values = {}
+        values['mus']  = self.means.eval()
+        values['vars'] = self.vars.eval()
+        return values
+
+    def setParamValues(self,values):
+        self.means.set_value( np.asarray(values['mus'],  dtype=floatX))
+        self.vars.set_value(  np.asarray(values['vars'], dtype=floatX))
+
 
 
 
