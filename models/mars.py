@@ -54,6 +54,27 @@ class Banana(M.GraphModel):
 
 
 
+
+
+class Loquat(M.GraphModel):
+    def __init__(self,name=None):
+        super(Loquat,self).__init__(name)
+        self.dimz = 2
+
+    def logPxz(self,z):                      # z : N x dimZ
+        z1, z2  = z[:,0], z[:,1]
+        zmag = T.sqrt( T.sum( T.sqr(z),axis=1 ) )
+        out = .5*T.sqr( (zmag-2.)/0.4 ) - T.log( T.exp( -.5*T.sqr( (z1-2.)/.6) ) + T.exp( -.5*T.sqr((z1+2.)/.6)) )
+        return -out, -out, None
+
+    def nlogPz(self,z):
+        z1, z2  = z[:,0], z[:,1]
+        zmag = np.sqrt( np.sum( np.square(z),axis=1 ) )
+        out = .5*np.square( (zmag-2.)/.4 ) \
+              - np.log( np.exp( -.5*np.square((z1-2)/.6) ) + np.exp( -.5*np.square((z1+2)/.6)))
+        return -out
+
+
 class Apple(M.GraphModel):
     def __init__(self,name=None):
         super(Apple,self).__init__(name)
@@ -76,37 +97,34 @@ class Apple(M.GraphModel):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-class Loquat(M.GraphModel):
+class Lemon(M.GraphModel):
     def __init__(self,name=None):
-        super(Loquat,self).__init__(name)
+        super(Lemon,self).__init__(name)
         self.dimz = 2
 
     def logPxz(self,z):                      # z : N x dimZ
-        z1, z2  = z[:,0], z[:,1]
-        zmag = T.sqrt( T.sum(T.sqr(z),axis=1) )
-        out = .5*T.sqr( (zmag-2)/.4 ) - T.log(T.exp(-.5*T.sqr((z1-2)/.6)) + T.exp(-.5*T.sqr((z1+2)/.6)))
-        return out, out, None
+        z1,z2  = z[:,0], z[:,1]
+        w1z  = T.sin( PI/2.*z1 )
+        w2z = 3 * T.exp( -.5*T.sqr( (z1-1)/0.6 ) )
+        out = -T.log(
+            T.exp( -.5*T.sqr( (z2-w1z)/.35 )) + T.exp( -.5*T.sqr( (z2-w1z+w2z)/.35 ) )
+        )        # N
+        return -out, -out, None
 
-    def getParams(self):
-        return []
 
-    def evalx_z(self,z):
+    def nlogPz(self,z):
+        # z = z*2.
         z1, z2  = z[:,0], z[:,1]
-        zmag = np.sqrt( np.sum(np.square(z),axis=1) )
-        out = .5*np.square( (zmag-2)/.4 ) \
-              - np.log(np.exp(-.5*np.square((z1-2)/.6)) + np.exp(-.5*np.square((z1+2)/.6)))
-        return out
+        w1z  = np.sin( PI/2.*z1 )
+        w2z = 3 * np.exp( -.5*np.square( (z1-1)/0.6 ) )
+        out = -np.log(
+            np.exp( -.5*np.square( (z2-w1z)/.35 ) ) + np.exp( -.5*np.square( (z2-w1z+w2z)/.35) )
+            )        # N
+        return -out
+
+
+
+
 
 
 
@@ -116,24 +134,24 @@ class Orange(M.GraphModel):
         self.dimz = 2
 
     def logPxz(self,z):                      # z : N x dimZ
-        z2  = z[:,1]
-        z1  = z[:,0]
+        z1,z2  = z[:,0], z[:,1]
         w1z  = T.sin( PI/2.*z1 )
         # w2z = 3 * T.exp( -.5*T.sqr( (z1-1)/0.6 ) )
         w3z = 3 * T.nnet.sigmoid( (z1-1)/.3 )
-        out = -T.log(  T.exp(-.5*T.sqr( (z2-w1z)/.4 )) + T.exp( -.5*T.sqr((z2-w1z+w3z)/.35))  )        # N
-        return out, out, None
+        out = -T.log(
+            T.exp( -.5*T.sqr( (z2-w1z)/.4 )) + T.exp( -.5*T.sqr( (z2-w1z+w3z)/.35 ) )
+        )        # N
+        return -out, -out, None
 
-    def getParams(self):
-        return []
 
-    def evalx_z(self,z):
+    def nlogPz(self,z):
+        # z = z*2.
         z1, z2  = z[:,0], z[:,1]
         w1z  = np.sin( PI/2.*z1 )
         # w2z = 3 * T.exp( -.5*T.sqr( (z1-1)/0.6 ) )
         w3z = 3 * mathZ.sigmoid( (z1-1)/.3 )
         out = -np.log(
-            np.exp( -.5*np.square((z2-w1z)/.4) ) + np.exp( -.5*np.square((z2-w1z+w3z)/.35))
+            np.exp( -.5*np.square( (z2-w1z)/.4 ) ) + np.exp( -.5*np.square((z2-w1z+w3z)/.35) )
             )        # N
-        return out
+        return -out
 
