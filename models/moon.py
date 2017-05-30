@@ -47,7 +47,7 @@ class Logistic(object):
             return T.sum(logall,axis=1), logall, y_, sigall, proball
         return T.mean(logall,axis=1), logall
 
-    def logPw(self,ws):
+    def logPw(self,ws,bs=None):
         '''
         :param ws: TensorVaraiables, ( L, dimx )
         :return:

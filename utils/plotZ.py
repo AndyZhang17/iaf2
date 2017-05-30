@@ -24,12 +24,12 @@ def hist2d_II(points,bins=50,axes=(0,1)):
     plt.show()
 
 
-def category2d(points,cat,dotarea=10,axes=(0,1)):
+def category2d(points,cat,dotarea=10,axes=(0,1),cmap=None):
     fig = plt.figure()
     x,y = points[:,axes[0]],points[:,axes[1]]
     area = dotarea
     cs = cat
-    plt.scatter( x,y, s=area, c=cs, alpha=1.0)
+    plt.scatter( x,y, s=area, c=cs, alpha=1.0, cmap=cmap)
     return fig
 
 def category3d(points,cat,dotarea=10,axes=(0,1,2)):

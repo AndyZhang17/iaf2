@@ -28,6 +28,10 @@ class MeanField(object):
         self.qzfn = None
         self.params = [self.means,self.vars]
 
+    def reInit(self):
+        self.means.set_value( np.zeros(self.dim, dtype=floatX) )
+        self.vars.set_value(  np.ones( self.dim, dtype=floatX) )
+
     def getParams(self):
         return self.params
 

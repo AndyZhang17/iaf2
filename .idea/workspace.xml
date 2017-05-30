@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c6c6cd31-5660-44c5-972d-87df63380852" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/__init__.py" afterPath="$PROJECT_DIR$/models/__init__.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/network/meanField.py" afterPath="$PROJECT_DIR$/network/meanField.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/moon.py" afterPath="$PROJECT_DIR$/models/moon.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phase4.ipynb" afterPath="$PROJECT_DIR$/phase4.ipynb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/phase4_logistic.ipynb" afterPath="$PROJECT_DIR$/phase4_logistic.ipynb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/utils/plotZ.py" afterPath="$PROJECT_DIR$/utils/plotZ.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="iaf2.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,7 +27,7 @@
     <favorites_list name="iaf2" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
+    <splitter split-orientation="horizontal" split-proportion="0.46122995">
       <split-first>
         <leaf>
           <file leaf-file-name="normFlow.py" pinned="false" current-in-tab="false">
@@ -40,11 +42,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="mathZ.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="mathZ.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/utils/mathZ.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.504717">
-                  <caret line="69" column="26" selection-start-line="69" selection-start-column="26" selection-end-line="69" selection-end-column="26" />
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="76" column="32" selection-start-line="76" selection-start-column="32" selection-end-line="76" selection-end-column="32" />
                   <folding>
                     <element signature="e#23#34#0" expanded="true" />
                   </folding>
@@ -64,6 +66,18 @@
               </provider>
             </entry>
           </file>
+          <file leaf-file-name="meanField.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/network/meanField.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.43560606">
+                  <caret line="23" column="42" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
+                  <folding>
+                    <element signature="e#22#35#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
           <file leaf-file-name="moon.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/models/moon.py">
               <provider selected="true" editor-type-id="text-editor">
@@ -71,6 +85,7 @@
                   <caret line="34" column="32" selection-start-line="34" selection-start-column="32" selection-end-line="34" selection-end-column="32" />
                   <folding>
                     <element signature="e#23#36#0" expanded="true" />
+                    <marker date="1496100234000" expanded="true" signature="5183:5754" placeholder="..." />
                   </folding>
                 </state>
               </provider>
@@ -105,11 +120,21 @@
           <file leaf-file-name="moon.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/models/moon.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.7995283">
-                  <caret line="169" column="36" selection-start-line="169" selection-start-column="36" selection-end-line="169" selection-end-column="36" />
+                <state vertical-scroll-proportion="0.28535354">
+                  <caret line="49" column="30" selection-start-line="49" selection-start-column="30" selection-end-line="49" selection-end-column="30" />
                   <folding>
                     <element signature="e#23#36#0" expanded="true" />
                   </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="plotZ.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/utils/plotZ.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="31" column="56" selection-start-line="31" selection-start-column="56" selection-end-line="31" selection-end-column="56" />
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -142,11 +167,11 @@
         <option value="$PROJECT_DIR$/network/normFlow2.py" />
         <option value="$PROJECT_DIR$/utils/mathZ.py" />
         <option value="$PROJECT_DIR$/utils/mathT.py" />
-        <option value="$PROJECT_DIR$/utils/plotZ.py" />
         <option value="$PROJECT_DIR$/network/normFlow.py" />
-        <option value="$PROJECT_DIR$/network/meanField.py" />
         <option value="$PROJECT_DIR$/models/mars.py" />
         <option value="$PROJECT_DIR$/models/__init__.py" />
+        <option value="$PROJECT_DIR$/utils/plotZ.py" />
+        <option value="$PROJECT_DIR$/network/meanField.py" />
         <option value="$PROJECT_DIR$/models/moon.py" />
       </list>
     </option>
@@ -155,10 +180,10 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-496" />
-    <option name="y" value="23" />
-    <option name="width" value="1822" />
-    <option name="height" value="1392" />
+    <option name="x" value="-458" />
+    <option name="y" value="347" />
+    <option name="width" value="1701" />
+    <option name="height" value="912" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -452,10 +477,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-496" y="23" width="1822" height="1392" extended-state="0" />
+    <frame x="-458" y="347" width="1701" height="912" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.16209868" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.10952381" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -836,24 +861,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/network/meanField.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11792453">
-          <caret line="10" column="9" selection-start-line="10" selection-start-column="9" selection-end-line="10" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/plotZ.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4716981">
-          <caret line="40" column="16" selection-start-line="40" selection-start-column="16" selection-end-line="40" selection-end-column="16" />
-          <folding>
-            <element signature="e#22#40#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils/data.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -900,20 +907,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/utils/plotZ.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="31" column="56" selection-start-line="31" selection-start-column="56" selection-end-line="31" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/utils/mathZ.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.504717">
-          <caret line="69" column="26" selection-start-line="69" selection-start-column="26" selection-end-line="69" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="76" column="32" selection-start-line="76" selection-start-column="32" selection-end-line="76" selection-end-column="32" />
           <folding>
             <element signature="e#23#34#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/network/meanField.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.43560606">
+          <caret line="23" column="42" selection-start-line="23" selection-start-column="42" selection-end-line="23" selection-end-column="42" />
+          <folding>
+            <element signature="e#22#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/models/moon.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7995283">
-          <caret line="169" column="36" selection-start-line="169" selection-start-column="36" selection-end-line="169" selection-end-column="36" />
+        <state vertical-scroll-proportion="0.28535354">
+          <caret line="49" column="30" selection-start-line="49" selection-start-column="30" selection-end-line="49" selection-end-column="30" />
           <folding>
             <element signature="e#23#36#0" expanded="true" />
           </folding>
